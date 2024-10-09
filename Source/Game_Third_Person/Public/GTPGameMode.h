@@ -13,5 +13,8 @@ UCLASS()
 class GAME_THIRD_PERSON_API AGTPGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+	public:
+        AGTPGameMode();
 	
 };
