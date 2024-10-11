@@ -6,9 +6,6 @@
 #include "GameFramework/GameModeBase.h"
 #include "GTPGameMode.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class GAME_THIRD_PERSON_API AGTPGameMode : public AGameModeBase
 {

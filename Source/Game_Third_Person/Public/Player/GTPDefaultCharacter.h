@@ -26,7 +26,16 @@ protected:
   UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
   UCameraComponent *CameraComponent;
 
-	virtual void BeginPlay() override;
+  UPROPERTY()
+  UDecalComponent *CurrentCursor = nullptr;
+
+  UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cursor")
+  UMaterialInterface *CursorMaterial = nullptr;
+
+  UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cursor")
+  FVector CursorSize = FVector(20.0f, 40.0f, 40.0f);
+
+  virtual void BeginPlay() override;
 
 public:	
 	// Called every frame
@@ -40,8 +49,6 @@ private:
 	float ArmLength = 1400.0f;
     float FOV = 55.0f;
 
-
 	void MoveForward(float Value);
     void MoveRight(float Value);
 };
-

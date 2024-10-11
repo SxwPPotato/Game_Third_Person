@@ -3,8 +3,13 @@
 
 #include "Player/GTPDefaultCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Components/DecalComponent.h"
+#include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
+#include "String"
 
 // Sets default values
 AGTPDefaultCharacter::AGTPDefaultCharacter()
@@ -12,7 +17,7 @@ AGTPDefaultCharacter::AGTPDefaultCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	
+
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
     SpringArmComponent->SetupAttachment(GetRootComponent());
     SpringArmComponent->SetUsingAbsoluteRotation(true);
@@ -26,12 +31,20 @@ AGTPDefaultCharacter::AGTPDefaultCharacter()
     CameraComponent->SetupAttachment(SpringArmComponent);
     CameraComponent->SetFieldOfView(FOV);
     CameraComponent->bUsePawnControlRotation = false;
+
+    bUseControllerRotationPitch = false;
+    bUseControllerRotationYaw = false;
+    bUseControllerRotationRoll = false;
 }
 
 // Called when the game starts or when spawned
 void AGTPDefaultCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+  if (CursorMaterial) {
+    CurrentCursor = UGameplayStatics::SpawnDecalAtLocation(
+        GetWorld(), CursorMaterial, CursorSize, FVector(0));
+  }
 	
 }
 
@@ -39,14 +52,22 @@ void AGTPDefaultCharacter::BeginPlay()
 void AGTPDefaultCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+    APlayerController *PC =  UGameplayStatics::GetPlayerController(GetWorld(), 0);
+    if (PC) {
+        FHitResult ResultHit;
+        PC->GetHitResultUnderCursor(ECC_GameTraceChannel1, true, ResultHit);
+        float FindRotatorResultYaw = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(),ResultHit.Location).Yaw;
+        SetActorRotation(FQuat(FRotator(0.0f, FindRotatorResultYaw, 0.0f)));
+        if (CurrentCursor) {
+        CurrentCursor->SetWorldLocation(ResultHit.Location);
+        }
+    }
 }
 
-// Called to bind functionality to input
+
 void AGTPDefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+  Super::SetupPlayerInputComponent(PlayerInputComponent);
   PlayerInputComponent->BindAxis("MoveForward", this, &AGTPDefaultCharacter::MoveForward);
   PlayerInputComponent->BindAxis("MoveRight", this,&AGTPDefaultCharacter::MoveRight);
 }
