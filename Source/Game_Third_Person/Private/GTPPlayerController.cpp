@@ -13,3 +13,8 @@ void AGTPPlayerController::BeginPlay() {
   SetInputMode(FInputModeGameOnly());
   bShowMouseCursor = false;
 }
+
+void AGTPPlayerController::BeginSpectatingState() {
+  SetControlRotation(FRotator(-75.0f, 0.0f, 0.0f));
+  Super::BeginSpectatingState();
+}
