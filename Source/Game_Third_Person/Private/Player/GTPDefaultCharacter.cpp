@@ -11,11 +11,11 @@
 #include "Components/LMAHealthComponent.h"
 #include "String"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GTPWeaponComponent.h"
 
-// Sets default values
+
 AGTPDefaultCharacter::AGTPDefaultCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 
@@ -37,6 +37,8 @@ AGTPDefaultCharacter::AGTPDefaultCharacter()
     bUseControllerRotationPitch = false;
     bUseControllerRotationYaw = false;
     bUseControllerRotationRoll = false;
+
+    WeaponComponent = CreateDefaultSubobject<UGTPWeaponComponent>("Weapon");
 }
 
 // Called when the game starts or when spawned
@@ -81,7 +83,8 @@ void AGTPDefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
   PlayerInputComponent->BindAxis("MoveRight", this,&AGTPDefaultCharacter::MoveRight);
   PlayerInputComponent->BindAction("Shift", IE_Pressed, this, &AGTPDefaultCharacter::SprintStart);
   PlayerInputComponent->BindAction("Shift", IE_Released, this,&AGTPDefaultCharacter::SprintStop);
-
+  PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &UGTPWeaponComponent::Fire);
+  PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent,&UGTPWeaponComponent::Reload);
 }
 
 void AGTPDefaultCharacter::MoveForward(float Value) {

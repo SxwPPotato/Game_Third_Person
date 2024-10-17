@@ -12,7 +12,7 @@ class USpringArmComponent;
 class ULMAHealthComponent;
 class UAnimMontage;
 class UCharacterMovementComponent;
-
+class UGTPWeaponComponent;
 
 UCLASS()
 class GAME_THIRD_PERSON_API AGTPDefaultCharacter : public ACharacter
@@ -48,6 +48,9 @@ protected:
 
   UPROPERTY(EditDefaultsOnly, Category = "Animation")
   UAnimMontage *DeathMontage;
+
+  UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+  UGTPWeaponComponent *WeaponComponent;
 
 
   virtual void BeginPlay() override;
