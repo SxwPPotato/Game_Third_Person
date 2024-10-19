@@ -6,7 +6,7 @@
 #include "Animation/AnimNotifies/AnimNotify.h"
 #include "GTPReloadFinishedAnimNotify.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnNotifyReloadFinishedSignature, USkeletalMeshComponent *);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnNotifyReloadFinishedSignature, USkeletalMeshComponent*);
 
 UCLASS()
 class GAME_THIRD_PERSON_API UGTPReloadFinishedAnimNotify : public UAnimNotify
@@ -16,5 +16,5 @@ class GAME_THIRD_PERSON_API UGTPReloadFinishedAnimNotify : public UAnimNotify
 	public:
         virtual void Notify(USkeletalMeshComponent *MeshComp, UAnimSequenceBase *Animation) override;
 
-        FOnNotifyReloadFinishedSignature OnNotifyReloadFinished;
+        FOnNotifyReloadFinishedSignature OnNotifyReloadFinisheds;
 };

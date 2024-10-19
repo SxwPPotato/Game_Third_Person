@@ -9,6 +9,7 @@
 class AGTPBaseWeapon;
 class UAnimMontage;
 
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class GAME_THIRD_PERSON_API UGTPWeaponComponent : public UActorComponent
 {
@@ -18,6 +19,7 @@ public:
 	UGTPWeaponComponent();
 
 	void Fire();
+    void StopFire();
     void Reload();
 
 protected:
@@ -36,6 +38,7 @@ private:
 
     UPROPERTY()
     AGTPBaseWeapon *Weapon = nullptr;
+    bool weap;
 
     bool AnimReloading = false;
 
@@ -44,6 +47,6 @@ private:
 
     void OnNotifyReloadFinished(USkeletalMeshComponent *SkeletalMesh);
     bool CanReload() const;
-
+    
 		
 };

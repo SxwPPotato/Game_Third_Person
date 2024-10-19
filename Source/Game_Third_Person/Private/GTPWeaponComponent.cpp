@@ -13,17 +13,26 @@ UGTPWeaponComponent::UGTPWeaponComponent()
 
 }
 
+void UGTPWeaponComponent::Fire() {
+  if (Weapon && !AnimReloading) {
+    Weapon->Fire();
+  }
+}
+
+void UGTPWeaponComponent::StopFire() {
+  if (Weapon && !AnimReloading) {
+    Weapon->StopFire();
+  }
+}
 
 void UGTPWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-SpawnWeapon();
-	
+    SpawnWeapon();
+    InitAnimNotify();
 }
 
-
-// Called every frame
 void UGTPWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -47,38 +56,35 @@ void UGTPWeaponComponent::InitAnimNotify() {
   for (auto NotifyEvent : NotifiesEvents) {
     auto ReloadFinish = Cast<UGTPReloadFinishedAnimNotify>(NotifyEvent.Notify);
     if (ReloadFinish) {
-      ReloadFinish->OnNotifyReloadFinished.AddUObject(
-          this, &UGTPWeaponComponent::OnNotifyReloadFinished);
+      ReloadFinish->OnNotifyReloadFinisheds.AddUObject(this, &UGTPWeaponComponent::OnNotifyReloadFinished);
       break;
     }
   }
 }
 
-void UGTPWeaponComponent::OnNotifyReloadFinished(
-    USkeletalMeshComponent *SkeletalMesh) {
+void UGTPWeaponComponent::OnNotifyReloadFinished(USkeletalMeshComponent *SkeletalMesh) {
   const auto Character = Cast<ACharacter>(GetOwner());
+  UE_LOG(LogTemp, Display, TEXT("Reload finish    "));
   if (Character->GetMesh() == SkeletalMesh) {
     AnimReloading = false;
   }
 }
 
-bool UGTPWeaponComponent::CanReload() const 
-{ 
-    return !AnimReloading; 
+bool UGTPWeaponComponent::CanReload() const {
+  Weapon->ChangeClip();
+  return !AnimReloading  ;
 }
 
 void UGTPWeaponComponent::Reload() {
   if (!CanReload())
     return;
-  Weapon->ChangeClip();
+  UE_LOG(LogTemp, Display, TEXT("Reload start                   "));
   AnimReloading = true;
   ACharacter *Character = Cast<ACharacter>(GetOwner());
   Character->PlayAnimMontage(ReloadMontage);
 }
 
-void UGTPWeaponComponent::Fire() {
-  if (Weapon && !AnimReloading) {
-    Weapon->Fire();
-  }
-}
 
+
+
+ // UE_LOG(LogTemp, Display,TEXT(""));

@@ -5,6 +5,6 @@
 
 void UGTPReloadFinishedAnimNotify::Notify(USkeletalMeshComponent *MeshComp,
                                           UAnimSequenceBase *Animation) {
-  OnNotifyReloadFinished.Broadcast(MeshComp);
+  OnNotifyReloadFinisheds.Broadcast(MeshComp);
   Super::Notify(MeshComp, Animation);
 }

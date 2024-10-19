@@ -84,6 +84,7 @@ void AGTPDefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
   PlayerInputComponent->BindAction("Shift", IE_Pressed, this, &AGTPDefaultCharacter::SprintStart);
   PlayerInputComponent->BindAction("Shift", IE_Released, this,&AGTPDefaultCharacter::SprintStop);
   PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &UGTPWeaponComponent::Fire);
+  PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent,&UGTPWeaponComponent::StopFire);
   PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent,&UGTPWeaponComponent::Reload);
 }
 
@@ -96,7 +97,6 @@ void AGTPDefaultCharacter::MoveRight(float Value) {
 }
 
 void AGTPDefaultCharacter::SprintStart() {
-  //UE_LOG(LogTemp, Display,TEXT("endurance: %i"), endurance);
   switch_sprint = true;
   if (endurance > 0) {
     comp->MaxWalkSpeed = SprintSpeed;
@@ -104,7 +104,6 @@ void AGTPDefaultCharacter::SprintStart() {
 }
 
 void AGTPDefaultCharacter::SprintStop() {
-  //UE_LOG(LogTemp, Display, TEXT("endurance: %i"), endurance);
   switch_sprint = false;
   comp->MaxWalkSpeed = WalkSpeed;
 }
