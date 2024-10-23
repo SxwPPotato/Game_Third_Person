@@ -27,6 +27,10 @@ void AGTPBaseWeapon::BeginPlay()
 void AGTPBaseWeapon::Tick(float DeltaTime)
 { Super::Tick(DeltaTime); }
 
+
+
+
+
 void AGTPBaseWeapon::Fire() 
 { 
     shooting = true;

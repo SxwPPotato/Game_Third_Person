@@ -8,7 +8,8 @@
 
 class USkeletalMeshComponent;
 class UGTPWeaponComponent;
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnNotifyChangeClipSignature, bool);
+
+DECLARE_MULTICAST_DELEGATE(FOnNotifyChangeClipSignature);
 
 USTRUCT(BlueprintType)
 struct FAmmoWeapon {
@@ -31,6 +32,7 @@ public:
     void Fire();
     void ChangeClip();
     void StopFire();
+    FAmmoWeapon GetCurrentAmmoWeapon() const { return CurrentAmmoWeapon; }
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
@@ -50,13 +52,23 @@ protected:
     void DecrementBullets();
     bool IsCurrentClipEmpty() const;
 
+    UGTPWeaponComponent *weap;
+  
+
 public:	
 
 	virtual void Tick(float DeltaTime) override;
     bool shooting = false;
-        FTimerHandle RecoveryTimer;
+    FTimerHandle RecoveryTimer;
+    FOnNotifyChangeClipSignature OnNotifyEmptyClip;
+    
 
-private:
+    bool FullAmmo();
+
+    void CallbackFunc();
+
+  private:
   FAmmoWeapon CurrentAmmoWeapon;
-  FOnNotifyChangeClipSignature OnNotifyEmptyClip;
+  
+
 };

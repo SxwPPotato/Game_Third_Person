@@ -25,6 +25,14 @@ void UGTPWeaponComponent::StopFire() {
   }
 }
 
+bool UGTPWeaponComponent::GetCurrentWeaponAmmo(FAmmoWeapon &AmmoWeapon) const {
+  if (Weapon) {
+    AmmoWeapon = Weapon->GetCurrentAmmoWeapon();
+    return true;
+  }
+  return false;
+}
+
 void UGTPWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -71,20 +79,34 @@ void UGTPWeaponComponent::OnNotifyReloadFinished(USkeletalMeshComponent *Skeleta
 }
 
 bool UGTPWeaponComponent::CanReload() const {
-  Weapon->ChangeClip();
-  return !AnimReloading  ;
+  if (Weapon->FullAmmo()) {
+    Weapon->ChangeClip();
+    return !AnimReloading;
+  }
+  else{
+    return AnimReloading;
+  }
 }
 
 void UGTPWeaponComponent::Reload() {
-  if (!CanReload())
+    ReloadWeapon(); 
+}
+
+void UGTPWeaponComponent::ReloadWeapon() 
+{
+  if (this == nullptr) {
     return;
+  }
+  if (!CanReload()) {
+    UE_LOG(LogTemp, Display, TEXT("Reload Stop"));
+    return;
+  }
   UE_LOG(LogTemp, Display, TEXT("Reload start                   "));
   AnimReloading = true;
   ACharacter *Character = Cast<ACharacter>(GetOwner());
   Character->PlayAnimMontage(ReloadMontage);
+
 }
-
-
 
 
  // UE_LOG(LogTemp, Display,TEXT(""));

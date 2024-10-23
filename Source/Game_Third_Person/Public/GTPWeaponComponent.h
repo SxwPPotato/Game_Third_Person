@@ -21,6 +21,10 @@ public:
 	void Fire();
     void StopFire();
     void Reload();
+    void ReloadWeapon();
+
+    UFUNCTION(BlueprintCallable)
+    bool GetCurrentWeaponAmmo(FAmmoWeapon &AmmoWeapon) const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -30,6 +34,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
     UAnimMontage *ReloadMontage;
+
+    
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
