@@ -13,7 +13,7 @@ AGTPBaseWeapon::AGTPBaseWeapon()
   WeaponComponent = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
   SetRootComponent(WeaponComponent);
   //OnNotifyEmptyClip.AddUObject(weap, &UGTPWeaponComponent::CallbackFunc);
-  OnNotifyEmptyClip.AddUObject(this, &AGTPBaseWeapon::CallbackFunc);
+  //OnNotifyEmptyClip.AddUObject(this, &AGTPBaseWeapon::CallbackFunc);
 }
 
 void AGTPBaseWeapon::BeginPlay()
@@ -95,8 +95,8 @@ bool AGTPBaseWeapon::FullAmmo() {
     }
 }
 
-void AGTPBaseWeapon::CallbackFunc() { 
+/*void AGTPBaseWeapon::CallbackFunc() { 
     UE_LOG(LogTemp, Display, TEXT("Reload"));
     weap->ReloadWeapon();
     //&UGTPWeaponComponent::ReloadWeapon;
-}
+}*/

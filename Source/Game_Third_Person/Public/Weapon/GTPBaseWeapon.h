@@ -65,7 +65,7 @@ public:
 
     bool FullAmmo();
 
-    void CallbackFunc();
+    //void CallbackFunc();
 
   private:
   FAmmoWeapon CurrentAmmoWeapon;

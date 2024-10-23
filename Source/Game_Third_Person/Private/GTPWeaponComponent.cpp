@@ -56,7 +56,10 @@ void UGTPWeaponComponent::SpawnWeapon() {
       Weapon->AttachToComponent(Character->GetMesh(), AttachmentRules, "r_Weapon_Socket");
     }
   }
+  Weapon->OnNotifyEmptyClip.AddUObject(this,&UGTPWeaponComponent::ReloadWeapon);
 }
+
+
 void UGTPWeaponComponent::InitAnimNotify() {
   if (!ReloadMontage)
     return;
@@ -94,15 +97,14 @@ void UGTPWeaponComponent::Reload() {
 
 void UGTPWeaponComponent::ReloadWeapon() 
 {
-  if (this == nullptr) {
-    return;
-  }
+
   if (!CanReload()) {
     UE_LOG(LogTemp, Display, TEXT("Reload Stop"));
     return;
   }
   UE_LOG(LogTemp, Display, TEXT("Reload start                   "));
   AnimReloading = true;
+  Weapon->StopFire();
   ACharacter *Character = Cast<ACharacter>(GetOwner());
   Character->PlayAnimMontage(ReloadMontage);
 
