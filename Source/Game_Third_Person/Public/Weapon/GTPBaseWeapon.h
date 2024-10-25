@@ -8,6 +8,8 @@
 
 class USkeletalMeshComponent;
 class UGTPWeaponComponent;
+class USoundWave;
+class UNiagaraSystem;
 
 DECLARE_MULTICAST_DELEGATE(FOnNotifyChangeClipSignature);
 
@@ -44,8 +46,18 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
     FAmmoWeapon AmmoWeapon{30, 0, true};
 
-    void Shoot();
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+    USoundWave *ShootWave;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+    UNiagaraSystem *TraceEffect;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+    FString TraceName = "Tracer";
+
     
+
+    void Shoot();
 
 	virtual void BeginPlay() override;
 
@@ -65,10 +77,8 @@ public:
 
     bool FullAmmo();
 
-    //void CallbackFunc();
-
-  private:
+private:
   FAmmoWeapon CurrentAmmoWeapon;
   
-
+  void SpawnTrace(const FVector &TraceStart, const FVector &TraceEnd);
 };
