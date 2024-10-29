@@ -62,15 +62,15 @@ void AGTPDefaultCharacter::Tick(float DeltaTime)
     if (!(HealthComponent->IsDead())) {
         RotationPlayerOnCursor();
     }
-    if (switch_sprint == true && endurance >0) {
-      endurance -= 1;
-      GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("endurance = %i"), endurance));
+    if (SwitchSprint == true && Endurance >0) {
+      Endurance -= 1;
+      GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("endurance = %i"), Endurance));
     }
-    if (switch_sprint == false && endurance < 100) {
-      endurance += 1;
-      GEngine->AddOnScreenDebugMessage( -1, 2.0f, FColor::Blue,FString::Printf(TEXT("endurance = %i"), endurance));
+    if (SwitchSprint == false && Endurance < 100) {
+      Endurance += 1;
+      GEngine->AddOnScreenDebugMessage( -1, 2.0f, FColor::Blue,FString::Printf(TEXT("endurance = %i"), Endurance));
     }
-    if (endurance == 0){
+    if (Endurance == 0){
       comp->MaxWalkSpeed = WalkSpeed;
     }
    
@@ -97,14 +97,14 @@ void AGTPDefaultCharacter::MoveRight(float Value) {
 }
 
 void AGTPDefaultCharacter::SprintStart() {
-  switch_sprint = true;
-  if (endurance > 0) {
+  SwitchSprint = true;
+  if (Endurance > 0) {
     comp->MaxWalkSpeed = SprintSpeed;
   }
 }
 
 void AGTPDefaultCharacter::SprintStop() {
-  switch_sprint = false;
+  SwitchSprint = false;
   comp->MaxWalkSpeed = WalkSpeed;
 }
 

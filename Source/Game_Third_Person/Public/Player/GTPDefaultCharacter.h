@@ -56,10 +56,8 @@ protected:
   virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
     void MoveForward(float Value);
@@ -75,8 +73,8 @@ private:
     float FOV = 55.0f;
     float WalkSpeed = 600.0f;
     float SprintSpeed = 1000.0f;
-    int endurance = 100;
-    bool switch_sprint = false;
+    int Endurance = 100;
+    bool SwitchSprint = false;
 
     UCharacterMovementComponent *comp = GetCharacterMovement();
 

@@ -55,8 +55,9 @@ void UGTPWeaponComponent::SpawnWeapon() {
       FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget,false);
       Weapon->AttachToComponent(Character->GetMesh(), AttachmentRules, "r_Weapon_Socket");
     }
+    Weapon->OnNotifyEmptyClip.AddUObject(this,&UGTPWeaponComponent::ReloadWeapon);
   }
-  Weapon->OnNotifyEmptyClip.AddUObject(this,&UGTPWeaponComponent::ReloadWeapon);
+ 
 }
 
 

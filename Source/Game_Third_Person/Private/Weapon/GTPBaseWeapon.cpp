@@ -49,18 +49,16 @@ void AGTPBaseWeapon::SpawnTrace(const FVector &TraceStart,const FVector &TraceEn
 }
 
 void AGTPBaseWeapon::Shoot() {
-    const FTransform SocketTransform =
-        WeaponComponent->GetSocketTransform("Muzzle");
+    const FTransform SocketTransform = WeaponComponent->GetSocketTransform("Muzzle");
     const FVector TraceStart = SocketTransform.GetLocation();
-    const FVector ShootDirection =
-        SocketTransform.GetRotation().GetForwardVector();
+    const FVector ShootDirection = SocketTransform.GetRotation().GetForwardVector();
     const FVector TraceEnd = TraceStart + ShootDirection * TraceDistance;
     FHitResult HitResult;
     GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd,
                                          ECollisionChannel::ECC_Visibility);
     FVector TracerEnd = TraceEnd;
     if (HitResult.bBlockingHit) {
-      TracerEnd = HitResult.ImpactPoint;
+        TracerEnd = HitResult.ImpactPoint;
     }
     SpawnTrace(TraceStart, TracerEnd);
     UGameplayStatics::PlaySoundAtLocation(GetWorld(), ShootWave, TraceStart);
@@ -71,7 +69,7 @@ void AGTPBaseWeapon::Shoot() {
 
 void AGTPBaseWeapon::ChangeClip() {
     if (CurrentAmmoWeapon.Bullets != AmmoWeapon.Bullets) {
-      CurrentAmmoWeapon.Bullets = AmmoWeapon.Bullets;
+        CurrentAmmoWeapon.Bullets = AmmoWeapon.Bullets;
     }
   }
 
@@ -79,21 +77,19 @@ void AGTPBaseWeapon::DecrementBullets() {
   CurrentAmmoWeapon.Bullets--;
   UE_LOG(LogWeapon, Display, TEXT("Bullets = %s"),*FString::FromInt(CurrentAmmoWeapon.Bullets));
   if (IsCurrentClipEmpty()) {
-    UE_LOG(LogTemp, Display, TEXT("Broadcast"));
-  OnNotifyEmptyClip.Broadcast();
-
-    //ChangeClip();
+      UE_LOG(LogTemp, Display, TEXT("Broadcast"));
+      OnNotifyEmptyClip.Broadcast();
   }
 }
 
 bool AGTPBaseWeapon::IsCurrentClipEmpty() const {
   if (CurrentAmmoWeapon.Bullets == 0)
-  UE_LOG(LogTemp, Display, TEXT("Clip Empty"));
+    UE_LOG(LogTemp, Display, TEXT("Clip Empty"));
   return CurrentAmmoWeapon.Bullets == 0;
 }
 
 bool AGTPBaseWeapon::FullAmmo() { 
-    if(CurrentAmmoWeapon.Bullets == 30)
+    if (CurrentAmmoWeapon.Bullets == AmmoWeapon.Bullets)
     {
         return false;
     } 
