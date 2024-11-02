@@ -55,7 +55,10 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
     FString TraceName = "Tracer";
 
-    
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+    float Damage = 20;
+
+    void MakeDamage(const FHitResult &HitResult);
 
     void Shoot();
 
@@ -63,10 +66,7 @@ protected:
 
     void DecrementBullets();
     bool IsCurrentClipEmpty() const;
-
-    UGTPWeaponComponent *weap;
   
-
 public:	
 
 	virtual void Tick(float DeltaTime) override;

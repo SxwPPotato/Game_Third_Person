@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Engine/DamageEvents.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogWeapon, All, All);
 
@@ -48,6 +49,20 @@ void AGTPBaseWeapon::SpawnTrace(const FVector &TraceStart,const FVector &TraceEn
 
 }
 
+void AGTPBaseWeapon::MakeDamage(const FHitResult &HitResult) 
+{
+  const auto Zombie = HitResult.GetActor();
+  if (!Zombie)
+    return;
+  const auto Pawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+  if (!Pawn)
+    return;
+  const auto Controller = Pawn->GetController<APlayerController>();
+  if (!Controller)
+    return;
+  Zombie->TakeDamage(Damage, FDamageEvent(), Controller, this);
+}
+
 void AGTPBaseWeapon::Shoot() {
     const FTransform SocketTransform = WeaponComponent->GetSocketTransform("Muzzle");
     const FVector TraceStart = SocketTransform.GetLocation();
@@ -58,6 +73,7 @@ void AGTPBaseWeapon::Shoot() {
                                          ECollisionChannel::ECC_Visibility);
     FVector TracerEnd = TraceEnd;
     if (HitResult.bBlockingHit) {
+        MakeDamage(HitResult);
         TracerEnd = HitResult.ImpactPoint;
     }
     SpawnTrace(TraceStart, TracerEnd);
