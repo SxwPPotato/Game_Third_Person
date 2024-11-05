@@ -64,7 +64,7 @@ public:
     void MoveRight(float Value);
     void SprintStart();
     void SprintStop();
-
+    void OnDeath();
 
 private:
 
@@ -78,7 +78,7 @@ private:
 
     UCharacterMovementComponent *comp = GetCharacterMovement();
 
-	void OnDeath();
+	//void OnDeath();
 
 	void RotationPlayerOnCursor();
     void OnHealthChanged(float NewHealth);
