@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/GTPPlayerController.h"
 #include "GTPDefaultCharacter.generated.h"
 
 class UCameraComponent;
@@ -13,6 +14,7 @@ class ULMAHealthComponent;
 class UAnimMontage;
 class UCharacterMovementComponent;
 class UGTPWeaponComponent;
+class AGTPPlayerController;
 
 UCLASS()
 class GAME_THIRD_PERSON_API AGTPDefaultCharacter : public ACharacter
@@ -55,7 +57,9 @@ protected:
 
   virtual void BeginPlay() override;
 
+
 public:	
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -64,6 +68,7 @@ public:
     void MoveRight(float Value);
     void SprintStart();
     void SprintStop();
+    UFUNCTION(BlueprintCallable)
     void OnDeath();
 
 private:
@@ -77,7 +82,7 @@ private:
     bool SwitchSprint = false;
 
     UCharacterMovementComponent *comp = GetCharacterMovement();
-
+    AGTPPlayerController* PlayerPossess;
 	//void OnDeath();
 
 	void RotationPlayerOnCursor();

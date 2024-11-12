@@ -1,6 +1,5 @@
 // Game_Third_Person Game by Netologiya. All RightsReserved.
 
-
 #include "Player/GTPDefaultCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
@@ -12,12 +11,12 @@
 #include "String"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GTPWeaponComponent.h"
+#include "GameFramework/Controller.h"
 
 
 AGTPDefaultCharacter::AGTPDefaultCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
 
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
     SpringArmComponent->SetupAttachment(GetRootComponent());
@@ -41,7 +40,6 @@ AGTPDefaultCharacter::AGTPDefaultCharacter()
     WeaponComponent = CreateDefaultSubobject<UGTPWeaponComponent>("Weapon");
 }
 
-// Called when the game starts or when spawned
 void AGTPDefaultCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -50,14 +48,12 @@ void AGTPDefaultCharacter::BeginPlay()
     }
 
     OnHealthChanged(HealthComponent->GetHealth());
-    HealthComponent->OnDeath.AddUObject(this, &AGTPDefaultCharacter::OnDeath);
+    HealthComponent->OnDeath.AddUniqueDynamic(this,&AGTPDefaultCharacter::OnDeath);
+    //HealthComponent->OnDeath.AddUObject(this, &AGTPDefaultCharacter::OnDeath);
     HealthComponent->OnHealthChanged.AddUObject(this, &AGTPDefaultCharacter::OnHealthChanged);
-	
 }
 
-// Called every frame
-void AGTPDefaultCharacter::Tick(float DeltaTime)
-{
+void AGTPDefaultCharacter::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
     if (!(HealthComponent->IsDead())) {
         RotationPlayerOnCursor();
@@ -73,7 +69,6 @@ void AGTPDefaultCharacter::Tick(float DeltaTime)
     if (Endurance == 0){
       comp->MaxWalkSpeed = WalkSpeed;
     }
-   
 }
 
 void AGTPDefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -93,7 +88,6 @@ void AGTPDefaultCharacter::MoveForward(float Value) {
 }
 void AGTPDefaultCharacter::MoveRight(float Value) {
   AddMovementInput(GetActorRightVector(), Value);
- 
 }
 
 void AGTPDefaultCharacter::SprintStart() {
@@ -115,7 +109,12 @@ void AGTPDefaultCharacter::OnDeath() {
   GetCharacterMovement()->DisableMovement();
   SetLifeSpan(5.0f);
   if (Controller) {
+
     Controller->ChangeState(NAME_Spectating);
+    //AGTPPlayerController::Possess_Player();
+    //PlayerPossess->PossessPlayer();
+    //Controller->OnUnPossess();
+  
   }
 
 }

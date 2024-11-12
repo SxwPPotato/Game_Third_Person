@@ -10,7 +10,7 @@ ULMAHealthComponent::ULMAHealthComponent()
 
 void ULMAHealthComponent::BeginPlay()
 {
-	Super::BeginPlay();
+  Super::BeginPlay();
   Health = MaxHealth;
 
   OnHealthChanged.Broadcast(Health);
@@ -20,9 +20,7 @@ void ULMAHealthComponent::BeginPlay()
     OwnerComponent->OnTakeAnyDamage.AddDynamic(
         this, &ULMAHealthComponent::OnTakeAnyDamage);
   }
-
 }
-
 
 bool ULMAHealthComponent::IsDead() const 
 { 
