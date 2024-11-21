@@ -49,7 +49,6 @@ void AGTPDefaultCharacter::BeginPlay()
 
     OnHealthChanged(HealthComponent->GetHealth());
     HealthComponent->OnDeath.AddUniqueDynamic(this,&AGTPDefaultCharacter::OnDeath);
-    //HealthComponent->OnDeath.AddUObject(this, &AGTPDefaultCharacter::OnDeath);
     HealthComponent->OnHealthChanged.AddUObject(this, &AGTPDefaultCharacter::OnHealthChanged);
 }
 
@@ -111,10 +110,6 @@ void AGTPDefaultCharacter::OnDeath() {
   if (Controller) {
 
     Controller->ChangeState(NAME_Spectating);
-    //AGTPPlayerController::Possess_Player();
-    //PlayerPossess->PossessPlayer();
-    //Controller->OnUnPossess();
-  
   }
 
 }

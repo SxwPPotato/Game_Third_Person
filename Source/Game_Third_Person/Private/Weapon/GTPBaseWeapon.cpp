@@ -31,8 +31,8 @@ void AGTPBaseWeapon::Tick(float DeltaTime)
 
 void AGTPBaseWeapon::Fire() 
 { 
-    shooting = true;
-  GetWorldTimerManager().SetTimer(RecoveryTimer, this, &ThisClass::Shoot,0.2f,true);
+   shooting = true;
+  GetWorldTimerManager().SetTimer(RecoveryTimer, this, &ThisClass::Shoot, 0.2f,true);
 }
 void AGTPBaseWeapon::StopFire() 
 { 

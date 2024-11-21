@@ -74,7 +74,6 @@ public:
     FTimerHandle RecoveryTimer;
     FOnNotifyChangeClipSignature OnNotifyEmptyClip;
     
-
     bool FullAmmo();
 
 private:
