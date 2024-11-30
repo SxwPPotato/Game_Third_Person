@@ -28,8 +28,10 @@ void AGTPHealthPickup::BeginPlay()
 void AGTPHealthPickup::NotifyActorBeginOverlap(AActor *OtherActor) {
   Super::NotifyActorBeginOverlap(OtherActor);
   const auto Charcter = Cast<AGTPDefaultCharacter>(OtherActor);
-  if (GivePickup(Charcter)) {
-    PickupWasTaken();
+  if (Charcter != nullptr) {
+    if (GivePickup(Charcter)) {
+      PickupWasTaken();
+    }
   }
 }
 
